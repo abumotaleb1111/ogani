@@ -1,3 +1,22 @@
+<?php
+  session_start();
+
+  if(isset($_SESSION['id'])) {
+    header('Location: dashboard.php');
+  }
+
+  require_once '../vendor/autoload.php';
+  
+  $login = new App\Classes\Login();
+
+  $message = "";
+  if(isset($_POST['btn'])) {
+    $message = $login->adminLoginCheck($_POST);
+  }
+
+  
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,7 +26,7 @@
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/backend/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../assets/backend/img/favicon.png">
   <title>
-    Soft UI Dashboard by Creative Tim
+    Admin Login
   </title>
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -29,7 +48,7 @@
         <div class="row justify-content-center">
           <div class="col-lg-5 text-center mx-auto">
             <h1 class="text-white mb-2 mt-5">Ogani</h1>
-            <p class="text-lead text-white">Online grocery shopping and delivery in Bangladesh.</p>
+            <!-- <p class="text-lead text-white">Online grocery shopping and delivery in Bangladesh.</p> -->
           </div>
         </div>
       </div>
@@ -39,16 +58,18 @@
         <div class="col-xl-4 col-lg-5 col-md-7 mx-auto">
           <div class="card z-index-0">
             <div class="card-header text-center pt-4">
-              <h5>Login</h5>
+              <h5>Admin Login</h5>
+              <h6 style="color: red;"><?php echo $message; ?></h6>
             </div>
             
             <div class="card-body">
-              <form role="form text-left">
+
+              <form role="form text-left" action="" method="POST">
                 <div class="mb-3">
-                  <input type="email" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="email-addon">
+                  <input type="email" class="form-control" name="email" placeholder="Email" aria-label="Email" aria-describedby="email-addon">
                 </div>
                 <div class="mb-3">
-                  <input type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="password-addon">
+                  <input type="password" class="form-control" name="password" placeholder="Password" aria-label="Password" aria-describedby="password-addon">
                 </div>
                 <div class="form-check form-check-info text-left">
                   <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
@@ -57,9 +78,10 @@
                   </label>
                 </div>
                 <div class="text-center">
-                  <button type="button" class="btn bg-gradient-dark w-100 my-4 mb-2">Sign up</button>
+                  <button type="submit" class="btn bg-gradient-dark w-100 my-4 mb-2" name="btn">Sign in</button>
                 </div>
               </form>
+
             </div>
           </div>
         </div>
